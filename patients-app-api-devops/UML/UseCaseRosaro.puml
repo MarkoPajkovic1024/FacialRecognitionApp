@@ -1,0 +1,87 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+
+
+left to right direction
+skinparam packageStyle rectangle
+
+
+
+actor Health_Care_Provider1
+actor Health_Care_Provider2
+actor Hospital_Admin
+database AWS
+rectangle Rosaro {
+
+
+  Health_Care_Provider1 -- (Login)
+
+
+  Health_Care_Provider2  -- (Patient Visit)
+  Hospital_Admin-- (Patient Register)
+  Hospital_Admin -- (Health Care Provider Register)
+  (Health Care Provider Register) ..> (UserSchema) : uses
+
+  (Patient Register) ---> (Add Patient's Information)
+  (Patient Register) --> (Modify Patient's Information)
+  (Patient Register) ---> (Delete Patient's Information)
+  (Patient Register) --> (Search For Existing Patient's Information)
+  (Patient Register) ---> (Add Patient To A Hospital Department)
+  (Patient Register) --> (Add Patient's Photos)
+  (Patient Register) ---> (Add Patient's Consent For Use of Facial Recognition)
+  (Patient Register) ..> (AWS HIPAA Tier) : uses
+  (Patient Register) ..> (ImageSchema) : uses
+  (Patient Register) ..> (PatientSchema) : uses
+
+
+  (Login) --> (Reset Password)
+  (Reset Password) ..> (UserSchema) : uses
+  (Login) ---> (Forgot Password)
+
+  (Patient Visit) - (Login) : uses
+  (Patient Visit) ..> (Upload Patients Hospitalized in the Department) : uses
+  (Patient Visit) ...> (save) : uses
+  (Patient Visit) -- (search)
+(Patient Visit) --- (Add Drug/Treatment)
+(Patient Visit) -- (Delete Drug/Treatment)
+(Patient Visit) -->(Modify Drug/Treatment)
+
+(Patient Visit) ---> (Modify Drug/Treatment Date and Time Intervals)
+(Patient Visit) --> (Verify Patient Via Facial Recognition)
+(Verify Patient Via Facial Recognition) ..> (Machine Learning Facial Recognition) : uses
+(Modify Drug/Treatment) ..>(Machine Learning Drug Interaction Algo): uses
+(Patient Visit) --> (Add Drug/Treatment Date and Time Intervals)
+}
+
+skinparam actor {
+BorderColor black
+FontName Courier
+BackgroundColor Pink
+}
+
+skinparam usecase {
+BackgroundColor hotpink
+BorderColor hotpink
+
+
+}
+
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF
+
+ParticipantBorderColor DeepSkyBlue
+ParticipantBackgroundColor DodgerBlue
+ParticipantFontName Impact
+ParticipantFontSize 17
+ParticipantFontColor #A9DCDF
+
+
+}
+skinparam databaseBackgroundColor DodgerBlue
+
+Rosaro -----> AWS
+@enduml
